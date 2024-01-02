@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(yhx)
 
-include (cmake/utils.cmake)
+# include (cmake/utils.cmake)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations")
 
@@ -19,7 +19,7 @@ set(LIB_SRC
 
 add_library(yhx SHARED ${LIB_SRC})
 
-force_redefine_file_macro_for_sources(yhx)
+# force_redefine_file_macro_for_sources(yhx)
 find_library(YAMLCPP yaml-cpp)
 find_library(PTHREAD pthread)
 
@@ -28,10 +28,10 @@ set(LIBS
     pthread
     yaml-cpp)
 
-add_executable(test ../tests/test.cc)
-add_dependencies(test yhx)
-force_redefine_file_macro_for_sources(test)
-target_link_libraries(test ${LIBS})
+# add_executable(test ../tests/test.cc)
+# add_dependencies(test yhx)
+# force_redefine_file_macro_for_sources(test)
+# target_link_libraries(test ${LIBS})
 
 
 

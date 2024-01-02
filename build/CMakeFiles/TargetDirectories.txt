@@ -1,0 +1,3 @@
+/home/yanhexi/vscode_project/YHX_Server_master/build/CMakeFiles/yhx.dir
+/home/yanhexi/vscode_project/YHX_Server_master/build/CMakeFiles/edit_cache.dir
+/home/yanhexi/vscode_project/YHX_Server_master/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+/usr/bin/g++ -fPIC  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -shared -Wl,-soname,libyhx.so -o libyhx.so CMakeFiles/yhx.dir/yhx/log.cc.o CMakeFiles/yhx.dir/yhx/util.cc.o   -L/home/yanhexi/vscode_project/YHX_Server_master/lib 
