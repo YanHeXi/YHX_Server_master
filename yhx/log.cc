@@ -1,4 +1,8 @@
 #include "log.h"
+#include <iostream>
+#include <functional>
+#include <time.h>
+#include <string.h>
 namespace yhx
 {
     const char *LogLevel::ToString(LogLevel::Level level)
@@ -20,6 +24,35 @@ namespace yhx
             return "UNKNOW";
         }
         return "UNKNOW";
+    }
+
+    LogEventWrap::LogEventWrap(LogEvent::ptr e)
+        : m_event(e)
+    {
+    }
+
+    LogEventWrap::~LogEventWrap()
+    {
+        m_event->getLogger()->log(m_event->getLevel(), m_event);
+    }
+
+    void LogEvent::format(const char *fmt, ...)
+    {
+        va_list al;
+        va_start(al, fmt);
+        format(fmt, al);
+        va_end(al);
+    }
+
+    void LogEvent::format(const char *fmt, va_list al)
+    {
+        char *buf = nullptr;
+        int len = vasprintf(&buf, fmt, al);
+        if (len != -1)
+        {
+            m_ss << std::string(buf, len);
+            free(buf);
+        }
     }
 
     class MessageFormatItem : public LogFormatter::FormatItem
@@ -198,12 +231,48 @@ namespace yhx
 #undef XX
     }
 
-    Logger::Logger(const std::string &name) : m_name(name) {}
+    Logger::Logger(const std::string &name) : m_name(name), m_level(LogLevel::DEBUG)
+    {
+        m_formatter.reset(new LogFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
+    }
 
+    void Logger::setFormatter(LogFormatter::ptr val)
+    {
+        // MutexType::Lock lock(m_mutex);
+        m_formatter = val;
+
+        for (auto &i : m_appenders)
+        {
+            // MutexType::Lock ll(i->m_mutex);
+            if (!i->m_hasFormatter)
+            {
+                i->m_formatter = m_formatter;
+            }
+        }
+    }
+
+    void Logger::setFormatter(const std::string &val)
+    {
+        std::cout << "---" << val << std::endl;
+        yhx::LogFormatter::ptr new_val(new yhx::LogFormatter(val));
+        // if (new_val->isError())
+        {
+            std::cout << "Logger setFormatter name=" << m_name
+                      << " value=" << val << " invalid formatter"
+                      << std::endl;
+            return;
+        }
+        // m_formatter = new_val;
+        setFormatter(new_val);
+    }
     void Logger::addAppender(LogAppender::ptr appender)
     {
+        if (!appender->getFormatter())
+        {
+            appender->setFormatter(m_formatter);
+        }
 
-        // m_appenders.push_back(appender);
+        m_appenders.push_back(appender);
     }
     void Logger::delAppender(LogAppender::ptr appender)
     {
@@ -286,16 +355,45 @@ namespace yhx
     LogFormatter::LogFormatter(const std::string &pattern) : m_pattern(pattern)
     {
     }
+    //, const std::string &thread_name  m_threadName(thread_name),
+    LogEvent::LogEvent(std::shared_ptr<yhx::Logger> logger, LogLevel::Level level, const char *file, int32_t line, uint32_t elapse, uint32_t thread_id, uint32_t fiber_id, uint64_t time)
+        : m_file(file),
+          m_line(line),
+          m_elapse(elapse),
+          m_threadId(thread_id),
+          m_fiberId(fiber_id),
+          m_time(time),
 
-    std::string LogFormatter::format(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event)
+          m_logger(logger),
+          m_level(level)
+    {
+    }
+
+        LogFormatter::LogFormatter(const std::string &pattern)
+        : m_pattern(pattern)
+    {
+        init();
+    }
+
+    std::string LogFormatter::format(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event)
     {
         std::stringstream ss;
-        for (auto &&i : m_items)
+        for (auto &i : m_items)
         {
             i->format(ss, logger, level, event);
         }
         return ss.str();
     }
+
+    std::ostream &LogFormatter::format(std::ostream &ofs, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event)
+    {
+        for (auto &i : m_items)
+        {
+            i->format(ofs, logger, level, event);
+        }
+        return ofs;
+    }
+
     void LogFormatter::init()
     {
         std::vector<std::tuple<std::string, std::string, int>> vec;
@@ -374,7 +472,7 @@ namespace yhx
             else if (fmt_status == 1)
             {
                 std::cout << "pattern parse error: " << m_pattern << " - " << m_pattern.substr(i) << std::endl;
-                // m_error = true;
+                m_error = true;
                 vec.push_back(std::make_tuple("<<pattern_error>>", fmt, 0));
             }
         }

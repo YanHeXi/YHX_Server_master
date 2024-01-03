@@ -20,18 +20,19 @@ set(LIB_SRC
 add_library(yhx SHARED ${LIB_SRC})
 
 # force_redefine_file_macro_for_sources(yhx)
-find_library(YAMLCPP yaml-cpp)
-find_library(PTHREAD pthread)
+# find_library(YAMLCPP yaml-cpp)
+# find_library(PTHREAD pthread)
 
 set(LIBS
     yhx
-    pthread
-    yaml-cpp)
+    # pthread
+    # yaml-cpp
+    )
 
-# add_executable(test ../tests/test.cc)
-# add_dependencies(test yhx)
+add_executable(test tests/test.cc)
+add_dependencies(test yhx)
 # force_redefine_file_macro_for_sources(test)
-# target_link_libraries(test ${LIBS})
+target_link_libraries(test ${LIBS})
 
 
 

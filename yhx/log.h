@@ -1,13 +1,92 @@
 #pragma once
 #include <string>
-#include <iostream>
+#include <stdint.h>
 #include <memory>
 #include <list>
-#include <fstream>
 #include <sstream>
+#include <fstream>
 #include <vector>
+#include <stdarg.h>
 #include <map>
-#include <functional>
+#include <iostream>
+#include "util.h"
+#define YHX_LOG_LEVEL(logger, level)                                                                  \
+    if (logger->getLevel() <= level)                                                                  \
+    yhx::LogEventWrap(yhx::LogEvent::ptr(new yhx::LogEvent(logger, level,                             \
+                                                           __FILE__, __LINE__, 0, yhx::GetThreadId(), \
+                                                           yhx::GetFiberId(), time(0))))              \
+        .getSS()
+
+/**
+ * @brief 使用流式方式将日志级别debug的日志写入到logger
+ */
+#define YHX_LOG_DEBUG(logger) YHX_LOG_LEVEL(logger, yhx::LogLevel::DEBUG)
+
+/**
+ * @brief 使用流式方式将日志级别info的日志写入到logger
+ */
+#define YHX_LOG_INFO(logger) YHX_LOG_LEVEL(logger, yhx::LogLevel::INFO)
+
+/**
+ * @brief 使用流式方式将日志级别warn的日志写入到logger
+ */
+#define YHX_LOG_WARN(logger) YHX_LOG_LEVEL(logger, yhx::LogLevel::WARN)
+
+/**
+ * @brief 使用流式方式将日志级别error的日志写入到logger
+ */
+#define YHX_LOG_ERROR(logger) YHX_LOG_LEVEL(logger, yhx::LogLevel::ERROR)
+
+/**
+ * @brief 使用流式方式将日志级别fatal的日志写入到logger
+ */
+#define YHX_LOG_FATAL(logger) YHX_LOG_LEVEL(logger, yhx::LogLevel::FATAL)
+
+/**
+ * @brief 使用格式化方式将日志级别level的日志写入到logger
+ */
+#define YHX_LOG_FMT_LEVEL(logger, level, fmt, ...)                                                    \
+    if (logger->getLevel() <= level)                                                                  \
+    yhx::LogEventWrap(yhx::LogEvent::ptr(new yhx::LogEvent(logger, level,                             \
+                                                           __FILE__, __LINE__, 0, yhx::GetThreadId(), \
+                                                           yhx::GetFiberId(), time(0))))              \
+        .getEvent()                                                                                   \
+        ->format(fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别debug的日志写入到logger
+ */
+#define YHX_LOG_FMT_DEBUG(logger, fmt, ...) YHX_LOG_FMT_LEVEL(logger, yhx::LogLevel::DEBUG, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别info的日志写入到logger
+ */
+#define YHX_LOG_FMT_INFO(logger, fmt, ...) YHX_LOG_FMT_LEVEL(logger, yhx::LogLevel::INFO, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别warn的日志写入到logger
+ */
+#define YHX_LOG_FMT_WARN(logger, fmt, ...) YHX_LOG_FMT_LEVEL(logger, yhx::LogLevel::WARN, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别error的日志写入到logger
+ */
+#define YHX_LOG_FMT_ERROR(logger, fmt, ...) YHX_LOG_FMT_LEVEL(logger, yhx::LogLevel::ERROR, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别fatal的日志写入到logger
+ */
+#define YHX_LOG_FMT_FATAL(logger, fmt, ...) YHX_LOG_FMT_LEVEL(logger, yhx::LogLevel::FATAL, fmt, __VA_ARGS__)
+
+/**
+ * @brief 获取主日志器
+ */
+#define YHX_LOG_ROOT() yhx::LoggerMgr::GetInstance()->getRoot()
+
+/**
+ * @brief 获取name的日志器
+ */
+#define YHX_LOG_NAME(name) yhx::LoggerMgr::GetInstance()->getLogger(name)
 
 namespace yhx
 {
@@ -33,9 +112,12 @@ namespace yhx
     {
     public:
         using ptr = std::shared_ptr<LogEvent>;
-        LogEvent();
-
-        const char *getFile() const { return m_file; }
+        LogEvent(std::shared_ptr<Logger> logger, LogLevel::Level level, const char *file, int32_t line, uint32_t elapse, uint32_t thread_id, uint32_t fiber_id, uint64_t time);
+        //, const std::string &thread_name = ""
+        const char *getFile() const
+        {
+            return m_file;
+        }
 
         int32_t getLine() const { return m_line; }
 
@@ -73,6 +155,22 @@ namespace yhx
         std::shared_ptr<Logger> m_logger;
         LogLevel::Level m_level;
     };
+
+    /**
+     * @brief 日志事件包装器
+     */
+    class LogEventWrap
+    {
+    public:
+        LogEventWrap(LogEvent::ptr e);
+        ~LogEventWrap();
+        LogEvent::ptr getEvent() const { return m_event; }
+        std::stringstream &getSS() { return m_event->getSS(); }
+
+    private:
+        LogEvent::ptr m_event;
+    };
+
     class LogFormatter
     {
     public:
@@ -85,8 +183,8 @@ namespace yhx
         {
         public:
             using ptr = std::shared_ptr<FormatItem>;
-            FormatItem(const std::string &fmt = "root");
-            virtual ~FormatItem();
+            FormatItem(const std::string &fmt = "root"){};
+            virtual ~FormatItem() {}
             virtual void format(std::ostream &os, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
         };
         void init();
@@ -106,6 +204,8 @@ namespace yhx
         virtual void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr) = 0;
 
         LogFormatter::ptr getFormatter() const { return m_formatter; }
+        void setFormatter(LogFormatter::ptr formatter) { m_formatter = formatter; }
+        void setLevel(LogLevel::Level level) { m_level = level; }
 
     protected:
         LogLevel::Level m_level = LogLevel::DEBUG;
@@ -126,7 +226,8 @@ namespace yhx
         void error(LogEvent::ptr event);
         void warn(LogEvent::ptr event);
         void fatal(LogEvent::ptr event);
-
+        void setFormatter(LogFormatter::ptr val);
+        void setFormatter(const std::string &val);
         void addAppender(LogAppender::ptr event);
         void delAppender(LogAppender::ptr event);
         LogLevel::Level getLevel() const { return m_level; }
@@ -137,6 +238,7 @@ namespace yhx
         std::string m_name;
         LogLevel::Level m_level;
         std::list<LogAppender::ptr> m_appenders;
+        LogFormatter::ptr m_formatter;
     };
     class StdoutLogAppender : public LogAppender
     {
