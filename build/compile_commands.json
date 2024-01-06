@@ -1,20 +1,32 @@
 [
 {
   "directory": "/home/yanhexi/vscode_project/YHX_Server_master/build",
-  "command": "/usr/bin/g++ -Dyhx_EXPORTS -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/yhx.dir/yhx/log.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/yhx/log.cc",
+  "command": "/usr/bin/g++ -Dyhx_EXPORTS -D__FILE__=\\\"yhx/log.cc\\\" -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/yhx.dir/yhx/log.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/yhx/log.cc",
   "file": "/home/yanhexi/vscode_project/YHX_Server_master/yhx/log.cc",
   "output": "CMakeFiles/yhx.dir/yhx/log.cc.o"
 },
 {
   "directory": "/home/yanhexi/vscode_project/YHX_Server_master/build",
-  "command": "/usr/bin/g++ -Dyhx_EXPORTS -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/yhx.dir/yhx/util.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/yhx/util.cc",
+  "command": "/usr/bin/g++ -Dyhx_EXPORTS -D__FILE__=\\\"yhx/util.cc\\\" -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/yhx.dir/yhx/util.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/yhx/util.cc",
   "file": "/home/yanhexi/vscode_project/YHX_Server_master/yhx/util.cc",
   "output": "CMakeFiles/yhx.dir/yhx/util.cc.o"
 },
 {
   "directory": "/home/yanhexi/vscode_project/YHX_Server_master/build",
-  "command": "/usr/bin/g++  -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -o CMakeFiles/test.dir/tests/test.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/tests/test.cc",
+  "command": "/usr/bin/g++ -Dyhx_EXPORTS -D__FILE__=\\\"yhx/config.cc\\\" -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -fPIC -o CMakeFiles/yhx.dir/yhx/config.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/yhx/config.cc",
+  "file": "/home/yanhexi/vscode_project/YHX_Server_master/yhx/config.cc",
+  "output": "CMakeFiles/yhx.dir/yhx/config.cc.o"
+},
+{
+  "directory": "/home/yanhexi/vscode_project/YHX_Server_master/build",
+  "command": "/usr/bin/g++  -D__FILE__=\\\"/home/yanhexi/vscode_project/tests/test.cc\\\" -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -o CMakeFiles/test.dir/tests/test.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/tests/test.cc",
   "file": "/home/yanhexi/vscode_project/YHX_Server_master/tests/test.cc",
   "output": "CMakeFiles/test.dir/tests/test.cc.o"
+},
+{
+  "directory": "/home/yanhexi/vscode_project/YHX_Server_master/build",
+  "command": "/usr/bin/g++  -I/home/yanhexi/vscode_project/YHX_Server_master/. -I/home/yanhexi/Downloads/tool  -rdynamic -O -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -g -o CMakeFiles/test_config.dir/tests/test_config.cc.o -c /home/yanhexi/vscode_project/YHX_Server_master/tests/test_config.cc",
+  "file": "/home/yanhexi/vscode_project/YHX_Server_master/tests/test_config.cc",
+  "output": "CMakeFiles/test_config.dir/tests/test_config.cc.o"
 }
 ]

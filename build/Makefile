@@ -145,6 +145,19 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
+#=============================================================================
+# Target rules for targets named test_config
+
+# Build rule for target.
+test_config: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_config
+.PHONY : test_config
+
+# fast build rule for target.
+test_config/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/build
+.PHONY : test_config/fast
+
 tests/test.o: tests/test.cc.o
 .PHONY : tests/test.o
 
@@ -168,6 +181,54 @@ tests/test.s: tests/test.cc.s
 tests/test.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/tests/test.cc.s
 .PHONY : tests/test.cc.s
+
+tests/test_config.o: tests/test_config.cc.o
+.PHONY : tests/test_config.o
+
+# target to build an object file
+tests/test_config.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cc.o
+.PHONY : tests/test_config.cc.o
+
+tests/test_config.i: tests/test_config.cc.i
+.PHONY : tests/test_config.i
+
+# target to preprocess a source file
+tests/test_config.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cc.i
+.PHONY : tests/test_config.cc.i
+
+tests/test_config.s: tests/test_config.cc.s
+.PHONY : tests/test_config.s
+
+# target to generate assembly for a file
+tests/test_config.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cc.s
+.PHONY : tests/test_config.cc.s
+
+yhx/config.o: yhx/config.cc.o
+.PHONY : yhx/config.o
+
+# target to build an object file
+yhx/config.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yhx.dir/build.make CMakeFiles/yhx.dir/yhx/config.cc.o
+.PHONY : yhx/config.cc.o
+
+yhx/config.i: yhx/config.cc.i
+.PHONY : yhx/config.i
+
+# target to preprocess a source file
+yhx/config.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yhx.dir/build.make CMakeFiles/yhx.dir/yhx/config.cc.i
+.PHONY : yhx/config.cc.i
+
+yhx/config.s: yhx/config.cc.s
+.PHONY : yhx/config.s
+
+# target to generate assembly for a file
+yhx/config.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yhx.dir/build.make CMakeFiles/yhx.dir/yhx/config.cc.s
+.PHONY : yhx/config.cc.s
 
 yhx/log.o: yhx/log.cc.o
 .PHONY : yhx/log.o
@@ -226,10 +287,17 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... test_config"
 	@echo "... yhx"
 	@echo "... tests/test.o"
 	@echo "... tests/test.i"
 	@echo "... tests/test.s"
+	@echo "... tests/test_config.o"
+	@echo "... tests/test_config.i"
+	@echo "... tests/test_config.s"
+	@echo "... yhx/config.o"
+	@echo "... yhx/config.i"
+	@echo "... yhx/config.s"
 	@echo "... yhx/log.o"
 	@echo "... yhx/log.i"
 	@echo "... yhx/log.s"

@@ -1,28 +1,27 @@
-#include "yhx/yhx.h"
+#include "../yhx/log.h"
+#include "../yhx/util.h"
+#include <iostream>
 
-int main(int argc, char **argv)
+int main(int atgs, char **argv)
 {
+
     yhx::Logger::ptr logger(new yhx::Logger);
     logger->addAppender(yhx::LogAppender::ptr(new yhx::StdoutLogAppender));
 
     yhx::FileLogAppender::ptr file_appender(new yhx::FileLogAppender("./log.txt"));
     yhx::LogFormatter::ptr fmt(new yhx::LogFormatter("%d%T%p%T%m%n"));
-    file_appender->setFormatter(fmt);
-    file_appender->setLevel(yhx::LogLevel::ERROR);
 
     logger->addAppender(file_appender);
-    yhx::LogEvent::ptr event(new yhx::LogEvent(logger, yhx::LogLevel::Level::DEBUG, __FILE__, __LINE__, 0, 1, 2, (uint64_t)time(0)));
-    event->getSS() << "hello yhx log";
-    logger->log(yhx::LogLevel::DEBUG, event);
+
     std::cout << "hello yhx log" << std::endl;
 
-    YHX_LOG_INFO(logger) << "test macro";
     YHX_LOG_INFO(logger) << "test macro";
     YHX_LOG_ERROR(logger) << "test macro error";
 
     YHX_LOG_FMT_ERROR(logger, "test macro fmt error %s", "aa");
 
-    // auto l = yhx::LoggerMgr::GetInstance()->getLogger("xx");
-    // YHX_LOG_INFO(l) << "xxx";
+    auto l = yhx::LoggerMgr::GetInstance()->getLogger("xx");
+    YHX_LOG_DEBUG(l) << "xxx";
+
     return 0;
 }

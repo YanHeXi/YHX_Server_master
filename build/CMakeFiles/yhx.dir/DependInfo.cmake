@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/yanhexi/vscode_project/YHX_Server_master/yhx/config.cc" "CMakeFiles/yhx.dir/yhx/config.cc.o" "gcc" "CMakeFiles/yhx.dir/yhx/config.cc.o.d"
   "/home/yanhexi/vscode_project/YHX_Server_master/yhx/log.cc" "CMakeFiles/yhx.dir/yhx/log.cc.o" "gcc" "CMakeFiles/yhx.dir/yhx/log.cc.o.d"
   "/home/yanhexi/vscode_project/YHX_Server_master/yhx/util.cc" "CMakeFiles/yhx.dir/yhx/util.cc.o" "gcc" "CMakeFiles/yhx.dir/yhx/util.cc.o.d"
   )

@@ -1,5 +1,9 @@
 {
     "files.associations": {
+        "iosfwd": "cpp",
+        "compare": "cpp",
+        "cstdint": "cpp",
+        "format": "cpp",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -18,10 +22,8 @@
         "*.tcc": "cpp",
         "charconv": "cpp",
         "chrono": "cpp",
-        "compare": "cpp",
         "concepts": "cpp",
         "condition_variable": "cpp",
-        "cstdint": "cpp",
         "deque": "cpp",
         "list": "cpp",
         "map": "cpp",
@@ -43,12 +45,10 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "format": "cpp",
         "fstream": "cpp",
         "future": "cpp",
         "initializer_list": "cpp",
         "iomanip": "cpp",
-        "iosfwd": "cpp",
         "iostream": "cpp",
         "istream": "cpp",
         "limits": "cpp",
@@ -66,10 +66,10 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "forward_list": "cpp",
-        "set": "cpp",
-        "unordered_set": "cpp",
+        "strstream": "cpp",
         "source_location": "cpp",
+        "unordered_set": "cpp",
+        "set": "cpp",
         "valarray": "cpp"
     }
 }
